@@ -24,7 +24,7 @@
 %
 \title{Sample Size Determination:\\Posterior Distributions Proximity}
 %
-\titlerunning{Posterior Distributions Proximity}
+\titlerunning{Sample Size Determination: Posterior Distributions Proximity}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -137,17 +137,17 @@ As in the case of a KL-sufficient sample size, in a model with a normal posterio
 Let the linear regression model have a normal prior distribution of parameters. By the conjugacy property of the prior distribution and likelihood, the posterior distribution is also normal. Thus, we come to one of the simplest examples of a model for which the theorems presented above are valid. In fact, simpler statements can be formulated for linear regression.
 
 \begin{theorem}\label{theorem3}
-    Let the sets of values of the features and the target variable be bounded, that is, $\exists M\in \mathbb{R}:$ $\|\mathbf{x}\|_2\leqslant M$ and $|y|\leqslant M$. If $\lambda_{\min}\left(\mathbf{X}^{\top}_k \mathbf{X}_k \right) = \omega(\sqrt{k})$ for $k\to \infty$, then in a linear regression model with a normal prior distribution of parameters $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$ and $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_{F}\to 0$ as $k\to \infty$.
+    Let the sets of values of the features and the target variable be bounded, that is, $\exists M\in \mathbb{R}:$ $\|\mathbf{x}\|_2\leqslant M$ and $|y|\leqslant M$. If $\lambda_{\min}\left(\mathbf{X}\T_k \mathbf{X}_k \right) = \omega(\sqrt{k})$ for $k\to \infty$, then in a linear regression model with a normal prior distribution of parameters $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$ and $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_{F}\to 0$ as $k\to \infty$.
 \end{theorem}
 
 \section{Computational experiment}
 This section provides an empirical study of the proposed methods. Experiments were conducted on synthetic data and dataset Liver Disorders from \cite{UCI}. 
 
-Synthetic data is generated from a linear regression model. The number of objects is 500, the number of features is 10. One object is sequentially removed from the given sample until the number of objects in the subsample is equal to the number of features. For each sample size $k$ we calculate the minimum eigenvalue of the matrix $\mathbf{X}_k^\top \mathbf{X}_k$. Also, the values of $KL(k)$ and $S(k)$ are calculated. This process is repeated $B=100$ times.
+Synthetic data is generated from a linear regression model. The number of objects is 500, the number of features is 10. One object is sequentially removed from the given sample until the number of objects in the subsample is equal to the number of features. For each sample size $k$ we calculate the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. Also, the values of $KL(k)$ and $S(k)$ are calculated. This process is repeated $B=100$ times.
 
 Regression dataset Liver Disorders has 345 objects and 5 features. We also sequentially remove objects from sample one by one. Minimum eigenvalue and function values are calculated. This process is repeated $B=1000$ times.
 
-Fig.~\ref{eigvals} shows the asymptotic behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k^\top \mathbf{X}_k$. We see that when the sample size tends to infinity, the minimum eigenvalue also tends to infinity. Meanwhile, as is necessary for the Theorem~\ref{theorem3}, the graph is higher than $\sqrt{k}$.
+Fig.~\ref{eigvals} shows the asymptotic behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. We see that when the sample size tends to infinity, the minimum eigenvalue also tends to infinity. Meanwhile, as is necessary for the Theorem~\ref{theorem3}, the graph is higher than $\sqrt{k}$.
 
 \begin{figure}[ht]
     \centering
@@ -181,6 +181,10 @@ For the definitions of KL-sufficiency and S-sufficiency, there is a hyperparamet
     \label{sufficient-vs-threshold}
 \end{figure}
 
+\section{Conclusion}
+
+Approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsamples are proposed. The correctness of the proposed approaches is proved under certain restrictions on the model used. The theorem on the moments of the limit posterior distribution of parameters in a linear regression model is proved. The conducted computational experiment makes it possible to analyze the properties of the proposed methods and their effectiveness.
+
 %
 % ---- Bibliography ----
 %
@@ -198,10 +202,10 @@ For the definitions of KL-sufficiency and S-sufficiency, there is a hyperparamet
 \section{Proof of Theorem \ref{theorem1}}
 \begin{proof}
 The Kullback-Leibler divergence for a pair of normal posterior distributions has the form
-    \[ D_{\text{KL}}\left( p_k \| p_{k+1} \right) = \dfrac{1}{2} \left( \mathrm{tr}\left( \mathbf{\Sigma}_{k+1}^{-1} \mathbf{\Sigma}_k \right) + (\mathbf{m}_{k+1} - \mathbf{m}_k)^{\top} \mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) - n + \log{\left( \dfrac{\det \mathbf{\Sigma}_{k+1}}{\det \mathbf{\Sigma}_{k}} \right)} \right). \]
+    \[ D_{\text{KL}}\left( p_k \| p_{k+1} \right) = \dfrac{1}{2} \left( \mathrm{tr}\left( \mathbf{\Sigma}_{k+1}^{-1} \mathbf{\Sigma}_k \right) + (\mathbf{m}_{k+1} - \mathbf{m}_k)\T \mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) - n + \log{\left( \dfrac{\det \mathbf{\Sigma}_{k+1}}{\det \mathbf{\Sigma}_{k}} \right)} \right). \]
     Let's express $\mathbf{\Sigma}_{k+1}$ as $\mathbf{\Sigma}_{k+1} = \mathbf{\Sigma}_k + \Delta\mathbf{\Sigma}$. Let's consider each term separately.
     \[ \mathrm{tr}\left( \mathbf{\Sigma}_{k+1}^{-1} \mathbf{\Sigma}_k \right) = \mathrm{tr}\left(\left(\mathbf{\Sigma}_k + \Delta \mathbf{\Sigma} \right)^{-1} \mathbf{\Sigma}_k \right) \to \mathrm{tr}\mathbf{I}_n=n\text{ as } \| \Delta \mathbf{\Sigma} \|_F \to 0, \]
-    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)^{\top}\mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant\| \mathbf{m}_{k+1} -\mathbf{m}_k\|_2^2\|\mathbf{\Sigma}_{k+1}^{-1} \|_2 \ to 0 \text{ as } \| \mathbf{m}_{k+1} - \mathbf{m}_k\|_2 \to 0, \]
+    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)\T\mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant\| \mathbf{m}_{k+1} -\mathbf{m}_k\|_2^2\|\mathbf{\Sigma}_{k+1}^{-1} \|_2 \ to 0 \text{ as } \| \mathbf{m}_{k+1} - \mathbf{m}_k\|_2 \to 0, \]
     \[ \log{\left( \dfrac{\det \mathbf{\Sigma}_{k+1}}{\det \mathbf{\Sigma}_{k}} \right)} = \log{\left( \dfrac{\det \left( \mathbf{\Sigma}_k + \Delta \mathbf{\Sigma} \right)}{\det\mathbf{\Sigma}_{k}} \right)} \to \log \det\mathbf{I}_n = \log 1 = 0 \text{ as } \| \Delta \mathbf{\Sigma} \|_F\to 0, \]
     from where we have the required.
 \end{proof}
@@ -209,9 +213,9 @@ The Kullback-Leibler divergence for a pair of normal posterior distributions has
 \section{Proof of Theorem \ref{theorem2}}
 \begin{proof}
 Let's use the s-score expression for a pair of normal posterior distributions from \cite{Aduenko2017}:
-\[\text{s-score}(p_k, p_{k+1}) = \exp{\left( -\dfrac{1}{2} (\mathbf{m}_{k+1} - \mathbf{m}_k)^{\top} \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right)}. \]
+\[\text{s-score}(p_k, p_{k+1}) = \exp{\left( -\dfrac{1}{2} (\mathbf{m}_{k+1} - \mathbf{m}_k)\T \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right)}. \]
 Because
-    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)^{\top} \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2^2 \| \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} \|_2 \to 0 \]
+    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)\T \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2^2 \| \left( \mathbf{\Sigma}_k + \mathbf{\Sigma}_{k+1} \right)^{-1} \|_2 \to 0 \]
     if $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$, then the value of the quadratic form inside the exponent tends to zero. Therefore, $\text{s-score}(p_k, p_{k+1}) \to 1$ as $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$.
 \end{proof}
 
@@ -222,8 +226,8 @@ Let be a normal prior distribution of parameters $p(\mathbf{w})=\mathcal{N}\left
 Using the conjugacy of the prior distribution and likelihood, it is easy to find the parameters of the posterior distribution:
     \[ p(\mathbf{w} | \mathbf{X}, \mathbf{y}) = \mathcal{N}\left(\mathbf{w} | \mathbf{m}, \mathbf{\Sigma} \right), \]
 where
-    \[ \mathbf{\Sigma} = \left( \alpha \mathbf{I} + \dfrac{1}{\sigma^2} \mathbf{X}^{\top} \mathbf{X} \right)^{-1}, \qquad \mathbf{m} = \left( \mathbf{X}^{\top} \mathbf{X} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}^{\top} \mathbf{y}. \]
-Consider the expression $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2$ norms of difference of covariance matrices for subsamples of size $k$ and $k+1$. Let's introduce the notation $\mathbf{A}_k = \dfrac{1}{\sigma^2}\mathbf{X}^{\top}_k\mathbf{X}_k$. Given the formulas above, we have
+    \[ \mathbf{\Sigma} = \left( \alpha \mathbf{I} + \dfrac{1}{\sigma^2} \mathbf{X}\T \mathbf{X} \right)^{-1}, \qquad \mathbf{m} = \left( \mathbf{X}\T \mathbf{X} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}\T \mathbf{y}. \]
+Consider the expression $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2$ norms of difference of covariance matrices for subsamples of size $k$ and $k+1$. Let's introduce the notation $\mathbf{A}_k = \dfrac{1}{\sigma^2}\mathbf{X}\T_k\mathbf{X}_k$. Given the formulas above, we have
     \[ \| \mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k \|_2 = \left\| \left( \alpha \mathbf{I} + \mathbf{A}_{k+1} \right)^{-1} - \left( \alpha \mathbf{I} + \mathbf{A}_k \right)^{-1} \right\|_2 = \]
     \[ = \left\| \left( \alpha \mathbf{I} + \mathbf{A}_{k+1} \right)^{-1} \left( \mathbf{A}_{k+1} - \mathbf{A}_k \right) \left( \alpha \mathbf{I} + \mathbf{A}_k \right)^{-1} \right\|_2 \leqslant \]
     Let's use the submultiplicativity of the spectral matrix norm.
@@ -231,41 +235,41 @@ Consider the expression $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2$ norms 
     Now let's use the expression of the spectral matrix norm in terms of the maximum eigenvalue.
     \[ = \dfrac{1}{\lambda_{\min}\left( \alpha \mathbf{I} + \mathbf{A}_{k+1} \right)} \dfrac{1}{\lambda_{\min}\left( \alpha \mathbf{I} + \mathbf{A}_k \right)} \left\| \mathbf{A}_{k+1} - \mathbf{A}_k \right\|_2 \leqslant \]
     \[ \leqslant \dfrac{1}{\lambda_{\min}\left( \mathbf{A}_{k+1} \right)} \dfrac{1}{\lambda_{\min}\left( \mathbf{A}_k \right)} \left\| \mathbf{A}_{k+1} - \mathbf{A}_k \right\|_2 = \]
-    \[ = \sigma^2  \dfrac{1}{\lambda_{\min}\left( \mathbf{X}^{\top}_{k+1} \mathbf{X}_{k+1} \right)} \dfrac{1}{\lambda_{\min}\left( \mathbf{X}^{\top}_k \mathbf{X}_k \right)} \left\| \mathbf{X}^{\top}_{k+1} \mathbf{X}_{k+1} - \mathbf{X}^{\top}_k \mathbf{X}_k \right\|_2. \]
+    \[ = \sigma^2  \dfrac{1}{\lambda_{\min}\left( \mathbf{X}\T_{k+1} \mathbf{X}_{k+1} \right)} \dfrac{1}{\lambda_{\min}\left( \mathbf{X}\T_k \mathbf{X}_k \right)} \left\| \mathbf{X}\T_{k+1} \mathbf{X}_{k+1} - \mathbf{X}\T_k \mathbf{X}_k \right\|_2. \]
 Further, since by the condition $\|\mathbf{x}\|_2 \leqslant M$, then
-    \[ \left\| \mathbf{X}^{\top}_{k+1} \mathbf{X}_{k+1} - \mathbf{X}^{\top}_k \mathbf{X}_k \right\|_2 = \left\| \sum\limits_{i=1}^{k+1} \mathbf{x}_i \mathbf{x}_i^{\top} - \sum\limits_{i=1}^{k} \mathbf{x}_i \mathbf{x}_i^{\top} \right\|_2 = \left\| \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right\|_2 = \lambda_{\max}\left( \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right) = \]
+    \[ \left\| \mathbf{X}\T_{k+1} \mathbf{X}_{k+1} - \mathbf{X}\T_k \mathbf{X}_k \right\|_2 = \left\| \sum\limits_{i=1}^{k+1} \mathbf{x}_i \mathbf{x}_i\T - \sum\limits_{i=1}^{k} \mathbf{x}_i \mathbf{x}_i\T \right\|_2 = \left\| \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right\|_2 = \lambda_{\max}\left( \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right) = \]
     A matrix of unit rank has a single nonzero eigenvalue.
-    \[= \mathbf{x}_{k+1}^{\top} \mathbf{x}_{k+1} = \| \mathbf{x}_{k+1}\|_2^2 \leqslant M^2. \]
-By condition $\lambda_{\min}\left(\mathbf{X}^{\top}_k\mathbf{X}_k \right) = \omega(\sqrt{k})$, then $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2 = o(k^{-1})$ as $k\to \infty$. Next, we will use the equivalence of matrix norms, namely
+    \[= \mathbf{x}_{k+1}\T \mathbf{x}_{k+1} = \| \mathbf{x}_{k+1}\|_2^2 \leqslant M^2. \]
+By condition $\lambda_{\min}\left(\mathbf{X}\T_k\mathbf{X}_k \right) = \omega(\sqrt{k})$, then $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2 = o(k^{-1})$ as $k\to \infty$. Next, we will use the equivalence of matrix norms, namely
     \[ \|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k \|_F \leqslant\sqrt{k}\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_2 = o(k^{-1/2}) \text{ as } k\to \infty, \]
     which was exactly what needed to be proved. Now let's estimate the norm of the difference in mathematical expectations.
-    \[ \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2 = \left\| \left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_{k+1}^{\top} \mathbf{y}_{k+1} - \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k^{\top} \mathbf{y}_k \right\|_2 = \]
-    Consider that $\mathbf{X}_{k+1}^{\top} = [\mathbf{X}_k^{\top},\mathbf{x}_{k+1}]$ and $\mathbf{y}_{k+1} = [\mathbf{y}_k, y_{k+1}]^{\top}$, then $\mathbf{X}_{k+1}^{\top}\mathbf{X}_{k+1} = \mathbf{X}_k^{\top} \mathbf{X}_k +\mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top}$ and $\mathbf{X}_{k+1}^{\top}\mathbf{y}_{k+1} = \mathbf{X}_k^{\top} \mathbf{y}_k + \mathbf{x}_{k+1} y_{k+1}$.
-    \[ = \left\| \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} + \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)^{-1} \left( \mathbf{X}_k^{\top} \mathbf{y}_k + \mathbf{x}_{k+1} y_{k+1} \right) - \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k^{\top} \mathbf{y}_k \right\|_2 = \]
+    \[ \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2 = \left\| \left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_{k+1}\T \mathbf{y}_{k+1} - \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k\T \mathbf{y}_k \right\|_2 = \]
+    Consider that $\mathbf{X}_{k+1}\T = [\mathbf{X}_k\T,\mathbf{x}_{k+1}]$ and $\mathbf{y}_{k+1} = [\mathbf{y}_k, y_{k+1}]\T$, then $\mathbf{X}_{k+1}\T\mathbf{X}_{k+1} = \mathbf{X}_k\T \mathbf{X}_k +\mathbf{x}_{k+1} \mathbf{x}_{k+1}\T$ and $\mathbf{X}_{k+1}\T\mathbf{y}_{k+1} = \mathbf{X}_k\T \mathbf{y}_k + \mathbf{x}_{k+1} y_{k+1}$.
+    \[ = \left\| \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} + \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)^{-1} \left( \mathbf{X}_k\T \mathbf{y}_k + \mathbf{x}_{k+1} y_{k+1} \right) - \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k\T \mathbf{y}_k \right\|_2 = \]
     Let's take out the multiplier in the first term:
-\[\left(\mathbf{X}_k^{\top} \mathbf{X}_k+ \alpha\sigma^2 \mathbf{I} +\mathbf{x}_{k+1}\mathbf{x}_{k+1}^{\top}\right)^{-1}= \left(\mathbf{I} + \left( \mathbf{X}_k^{\top}\mathbf{X}_k +\alpha \sigma^2 \mathbf{I}\right)^{-1}\mathbf{x}_{k+1}\mathbf{x}_{k+1}^{\top}\right)^{-1} \left(\mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I}\right)^{-1}.\]
+\[\left(\mathbf{X}_k\T \mathbf{X}_k+ \alpha\sigma^2 \mathbf{I} +\mathbf{x}_{k+1}\mathbf{x}_{k+1}\T\right)^{-1}= \left(\mathbf{I} + \left( \mathbf{X}_k\T\mathbf{X}_k +\alpha \sigma^2 \mathbf{I}\right)^{-1}\mathbf{x}_{k+1}\mathbf{x}_{k+1}\T\right)^{-1} \left(\mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I}\right)^{-1}.\]
 Next, we will take out the common multiplier for both terms.
     \begin{multline*}
-        = \Bigg\| \left[ \left( \mathbf{I} + \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)^{-1} - \mathbf{I} \right] \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k^{\top} \mathbf{y}_k + \\ + \left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} y_{k+1} \Bigg\|_2 =
+        = \Bigg\| \left[ \left( \mathbf{I} + \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)^{-1} - \mathbf{I} \right] \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{X}_k\T \mathbf{y}_k + \\ + \left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} y_{k+1} \Bigg\|_2 =
     \end{multline*}
     Let's use the triangle inequality, as well as the consistency and submultiplicativity property of the spectral norm.
     \begin{multline*}
-        \leqslant \left\| \left( \mathbf{I} + \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)^{-1} - \mathbf{I} \right\|_2 \left\| \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{X}_k^{\top} \mathbf{y}_k \right\|_2 + \\ + \left\| \left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{x}_{k+1} y_{k+1} \right\|_2
+        \leqslant \left\| \left( \mathbf{I} + \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)^{-1} - \mathbf{I} \right\|_2 \left\| \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{X}_k\T \mathbf{y}_k \right\|_2 + \\ + \left\| \left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{x}_{k+1} y_{k+1} \right\|_2
     \end{multline*}
     Let's evaluate each term separately. In the first multiplier of the first term, we apply the formula for the difference of inverse matrices, as we did with covariance matrices.
-    \[ \left\| \left( \mathbf{I} + \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)^{-1} - \mathbf{I} \right\|_2 \leqslant \]
-    \[ \leqslant \left\| \left( \mathbf{I} + \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)^{-1} \right\|_2 \cdot \left\| \mathbf{I} \right\|_2 \cdot \left\| \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right\|_2 \leqslant \]
+    \[ \left\| \left( \mathbf{I} + \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)^{-1} - \mathbf{I} \right\|_2 \leqslant \]
+    \[ \leqslant \left\| \left( \mathbf{I} + \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)^{-1} \right\|_2 \cdot \left\| \mathbf{I} \right\|_2 \cdot \left\| \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right\|_2 \leqslant \]
     Again, we use submultiplicativity, as well as an expression for the norm of a matrix of unit rank.
-    \[ \leqslant \dfrac{1}{\lambda_{\min}\left( \mathbf{I} + \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)} \dfrac{\left\| \mathbf{x}_{k+1} \right\|_2^2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)} \leqslant \]
-    \[ \leqslant \dfrac{1}{1 + \lambda_{\min}\left(\left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)} \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} \leqslant \]
-    The minimum eigenvalue of the product of matrices is estimated by the product of their minimum eigenvalues. In addition, the minimum eigenvalue of the matrix of unit rank $\mathbf{x}_{k+1}\mathbf{x}_{k+1}^{\top}$ is zero.
-    \[ \leqslant \dfrac{1}{1 + \lambda_{\max}\left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right) \lambda_{\min}\left( \mathbf{x}_{k+1} \mathbf{x}_{k+1}^{\top} \right)} \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} = \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)}. \]
+    \[ \leqslant \dfrac{1}{\lambda_{\min}\left( \mathbf{I} + \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)} \dfrac{\left\| \mathbf{x}_{k+1} \right\|_2^2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)} \leqslant \]
+    \[ \leqslant \dfrac{1}{1 + \lambda_{\min}\left(\left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)} \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)} \leqslant \]
+    The minimum eigenvalue of the product of matrices is estimated by the product of their minimum eigenvalues. In addition, the minimum eigenvalue of the matrix of unit rank $\mathbf{x}_{k+1}\mathbf{x}_{k+1}\T$ is zero.
+    \[ \leqslant \dfrac{1}{1 + \lambda_{\max}\left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right) \lambda_{\min}\left( \mathbf{x}_{k+1} \mathbf{x}_{k+1}\T \right)} \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)} = \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)}. \]
 The second and third multipliers of the first term are evaluated as follows.
-    \[ \left\| \left( \mathbf{X}_k^{\top} \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{X}_k^{\top} \mathbf{y}_k \right\|_2 \leqslant \dfrac{\left\| \mathbf{X}_k^{\top} \mathbf{y}_k \right\|_2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} = \dfrac{\left\| \sum\limits_{i=1}^{k} \mathbf{x}_i y_i \right\|_2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} \leqslant \dfrac{k M^2}{\lambda_{\min}\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} \]
+    \[ \left\| \left( \mathbf{X}_k\T \mathbf{X}_k + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{X}_k\T \mathbf{y}_k \right\|_2 \leqslant \dfrac{\left\| \mathbf{X}_k\T \mathbf{y}_k \right\|_2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)} = \dfrac{\left\| \sum\limits_{i=1}^{k} \mathbf{x}_i y_i \right\|_2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)} \leqslant \dfrac{k M^2}{\lambda_{\min}\left( \mathbf{X}_k\T \mathbf{X}_k \right)} \]
     Finally, let's evaluate the second term.
-    \[ \left\| \left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{x}_{k+1} y_{k+1} \right\|_2 \leqslant \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} \right)} \]
+    \[ \left\| \left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} + \alpha \sigma^2 \mathbf{I} \right)^{-1} \right\|_2 \left\| \mathbf{x}_{k+1} y_{k+1} \right\|_2 \leqslant \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} \right)} \]
     In total, we have the following estimate.
-    \[ \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2 \leqslant \dfrac{k M^3}{\lambda_{\min}^2\left( \mathbf{X}_k^{\top} \mathbf{X}_k \right)} + \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_{k+1}^{\top} \mathbf{X}_{k+1} \right)} = k\cdot o(k^{-1}) + o(k^{-1/2}) = o(1) \text{ as } k\to \infty\]
+    \[ \| \mathbf{m}_{k+1} - \mathbf{m}_k \|_2 \leqslant \dfrac{k M^3}{\lambda_{\min}^2\left( \mathbf{X}_k\T \mathbf{X}_k \right)} + \dfrac{M^2}{\lambda_{\min}\left( \mathbf{X}_{k+1}\T \mathbf{X}_{k+1} \right)} = k\cdot o(k^{-1}) + o(k^{-1/2}) = o(1) \text{ as } k\to \infty\]
     Thus, we obtained the required convergence.
 \end{proof}
 

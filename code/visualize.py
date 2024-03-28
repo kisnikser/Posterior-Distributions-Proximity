@@ -1,7 +1,4 @@
-import numpy as np
-import scipy.stats as st
 from matplotlib import pyplot as plt
-from tqdm.auto import tqdm
 
 myparams = {
     'text.usetex': True,
