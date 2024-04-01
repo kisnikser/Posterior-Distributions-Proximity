@@ -1,6 +1,6 @@
 # Guide
 
-This repository contains the source code for the paper "Sample Size Determination: Posterion Distributions Proximity". The code includes data processing, model building, and visualization of results.
+This directory contains the source code for the paper "Sample Size Determination: Posterion Distributions Proximity". The code includes data processing, model building, and visualization of results.
 
 ## Table of Contents
 1. [Installation](#installation)
