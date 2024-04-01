@@ -1,53 +1,164 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
-% Version 2.21 of 2022/01/12
-%
-\documentclass[runningheads]{llncs}
-\input{preamble}
-%
-\usepackage[T1]{fontenc}
-% T1 fonts will be used to generate the final print and online PDFs,
-% so please use T1 fonts in your manuscript whenever possible.
-% Other font encondings may result in incorrect characters.
-%
-\usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
-% If you use the hyperref package, please uncomment the following two lines
-% to display URLs in blue roman font according to Springer's eBook style:
-\usepackage{color}
-\renewcommand\UrlFont{\color{blue}\rmfamily}
-\urlstyle{rm}
-%
-\begin{document}
-%
-\title{Sample Size Determination:\\Posterior Distributions Proximity}
-%
-\titlerunning{Sample Size Determination: Posterior Distributions Proximity}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
-%
-%\author{Nikita Kiselev\inst{1} \and Andrey Grabovoy\inst{1}}
-\author{Nikita Kiselev \and Andrey Grabovoy}
-%
-\authorrunning{N. Kiselev, A. Grabovoy}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
-\institute{Moscow Institute of Physics and Technology, Moscow, Russia}
-%
-\maketitle % typeset the header of the contribution
-%
-\begin{abstract}
-The paper investigates the problem of estimating a sufficient sample size. The issue of determining a sufficient sample size without specifying a statistical hypothesis about the distribution of model parameters is considered. Two approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsets are suggested. The correctness of the presented approaches is proven in the model with normal posterior distribution. A theorem about moments of the limit posterior distribution of parameters in a linear regression model is proven. A computational experiment is conducted to analyze the properties of the proposed methods.
+%% 
+%% Copyright 2007-2020 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
 
-\keywords{Sufficient sample size \and Posterior distributions proximity \and Bayesian inference \and Linear regression.}
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+%%
+%% 
+%%
+%% $Id: elsarticle-template-num.tex 190 2020-11-23 11:12:32Z rishi $
+%%
+%%
+\documentclass[preprint,12pt]{elsarticle}
+\input{preamble}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}
+\usepackage{amsmath}
+\newdefinition{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newproof{pf}{Proof}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
+
+\journal{Journal of Computational and Applied Mathematics}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \affiliation{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%% \fntext[label3]{}
+
+\title{Sample Size Determination: Posterior Distributions Proximity}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \affiliation[label1]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%%
+%% \affiliation[label2]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+
+\author[inst1]{Nikita Kiselev}
+
+\affiliation[inst1]{organization={Moscow Institute of Physics and Technology},%Department and Organization
+            %addressline={Address One}, 
+            city={Moscow},
+            %postcode={00000}, 
+            %state={State One},
+            country={Russia}}
+
+\author[inst1]{Andrey Grabovoy}
+%\author[inst1,inst2]{Author Three}
+
+%\affiliation[inst2]{organization={Department Two},%Department and Organization
+%            addressline={Address Two}, 
+%            city={City Two},
+%            postcode={22222}, 
+%            state={State Two},
+%            country={Country Two}}
+
+\begin{abstract}
+%% Text of abstract
+The paper investigates the problem of estimating a sufficient sample size. The issue of determining a sufficient sample size without specifying a statistical hypothesis about the distribution of model parameters is considered. Two approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsets are suggested. The correctness of the presented approaches is proven in the model with normal posterior distribution. A theorem about moments of the limit posterior distribution of parameters in a linear regression model is proven. A computational experiment is conducted to analyze the properties of the proposed methods.
 \end{abstract}
-%
-%
-%
+
+%%Graphical abstract
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
+
+%%Research highlights
+\begin{highlights}
+\item Posterior distributions of model parameters on similar subsamples turn out to be close
+\item The Kullback-Leibler divergence and the s-score function can be used to determine a sufficient sample size
+\item The mean and covariance matrix of the posterior distribution in a linear regression model converge
+\end{highlights}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+sufficient sample size \sep posterior distributions proximity \sep normal posterior distribution \sep linear regression
+%% PACS codes here, in the form: \PACS code \sep code
+%\PACS 0000 \sep 1111
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+%\MSC 0000 \sep 1111
+\end{keyword}
+
+\end{frontmatter}
+
+%% \linenumbers
+
+%% main text
 \section{Introduction}
+\label{sec:introduction}
 The task of supervised machine learning involves selecting a predictive model from a parametric family. This choice is usually based on certain statistical hypotheses, such as maximizing a quality functional. A model that satisfies these statistical hypotheses is called an \textit{adequate} model \cite{bies2006genetic,cawley2010over,raschka2018model}.
 
 When planning a computational experiment, it is necessary to estimate the minimum sample size~--- the number of objects required to build an adequate model. The sample size required to build an adequate predictive model is called \textit{sufficient} \cite{byrd2012sample,figueroa2012predicting,balki2019sample}. 
@@ -80,15 +191,6 @@ A probabilistic model is a joint distribution
 \[ p(y, \mathbf{w} | \mathbf{x}) = p(y | \mathbf{x}, \mathbf{w}) p(\mathbf{w}): \mathbb{Y} \times \mathbb{W} \times \mathbb{X} \to \mathbb{R}^+, \]
 where $\mathbf{w} \in \mathbb{W}$ is the set of model parameters, $p(y | \mathbf{x}, \mathbf{w})$ specifies the likelihood of an object, and $p(\mathbf{w})$ represents the prior distribution of parameters.
 
-The likelihood function of a sample $\mathfrak{D}_m = \left\{ (\mathbf{x}_i, y_i) \right\}, i \in \mathcal{I} = \{ 1, \ldots, m \}$ of size $m$, where $\mathbf{x}_1, \ldots, \mathbf{x}_m$ are i.i.d. together, is defined as 
-\[ L(\mathfrak{D}_m, \mathbf{w}) = p(\mathbf{y}_m | \mathbf{X}_m, \mathbf{w}) = \prod_{i=1}^{m} p(y_i | \mathbf{x}_i, \mathbf{w}). \]
-Its logarithm
-\[ l(\mathfrak{D}_m, \mathbf{w}) = \sum\limits_{i=1}^{m} \log p(y_i | \mathbf{x}_i, \mathbf{w}) \]
-is called the logarithmic likelihood function. Unless stated otherwise, we consider samples to be i.i.d.
-
-The maximum likelihood estimate of a set of parameters $\mathbf{w} \in \mathbb{W}$ based on the subsample $\mathfrak{D}_k$ of size $k$ is given by 
-\[ \hat{\mathbf{w}}_{k} = \arg\max_{\mathbf{w} \in \mathbb{W}} L(\mathfrak{D}_k, \mathbf{w}). \]
-
 The task is to determine the sufficient sample size $m^*$. Let a criterion $T$ be given. E.g. it can be constructed based on heuristics regarding the behaviour of model parameters.
 \begin{definition}
     The sample size $m^*$ is called \textbf{sufficient} according to the criterion $T$, if $T$ holds for all $k \geqslant m^*$.
@@ -107,11 +209,11 @@ Consider two subsamples $\mathfrak{D}^1\subseteq\mathfrak{D}_m$ and $\mathfrak{D
 \end{definition}
 
 Consider two similar subsamples $\mathfrak{D}_k = (\mathbf{X}_k,\mathbf{y}_k)$ and $\mathfrak{D}_{k+1} = (\mathbf{X}_{k+1}, \mathbf{y}_{k+1})$ of sizes $k$ and $k+1$, respectively. This means that the larger one is obtained by adding one element to the smaller one. Let's find the posterior distribution of the model parameters over these subsamples:
-\[p_j(\mathbf{w}) = p(\mathbf{w} | \mathfrak{D}_j) = \dfrac{p(\mathfrak{D}_j | \mathbf{w}) p(\mathbf{w})}{p(\mathfrak{D}_j)} \propto p(\mathfrak{D}_j | \mathbf{w}) p(\mathbf{w}), \quad j = k, k+1. \]
+\[p_j(\mathbf{w}) = p(\mathbf{w} | \mathfrak{D}_j) = \frac{p(\mathfrak{D}_j | \mathbf{w}) p(\mathbf{w})}{p(\mathfrak{D}_j)} \propto p(\mathfrak{D}_j | \mathbf{w}) p(\mathbf{w}), \quad j = k, k+1. \]
 
 \begin{definition}
     Let's fix some positive number $\varepsilon > 0$. The sample size $m^*$ is called \textbf{KL-sufficient} if for all $k\geqslant m^*$
-    \[ KL(k) = D_{KL}(p_k \| p_{k+1}) = \int p_k(\mathbf{w}) \log{\dfrac{p_k(\mathbf{w})}{p_{k+1}(\mathbf{w})}} d\mathbf{w} \leqslant \varepsilon. \]
+    \[ KL(k) = D_{KL}(p_k \| p_{k+1}) = \int p_k(\mathbf{w}) \log{\frac{p_k(\mathbf{w})}{p_{k+1}(\mathbf{w})}} d\mathbf{w} \leqslant \varepsilon. \]
 \end{definition}
 
 For a pair of normal distributions, the Kullback-Leibler divergence has a fairly simple form. Assume that the posterior distribution is normal, that is, $p_k(\mathbf{w}) = \mathcal{N}\left(\mathbf{w}|\mathbf{m}_k, \mathbf{\Sigma}_k\right)$. Guided by the heuristic that the convergence of the moments of such a distribution should entail the proximity of posterior distributions on similar subsamples, the following statement can be formulated.
@@ -121,7 +223,7 @@ For a pair of normal distributions, the Kullback-Leibler divergence has a fairly
 \end{theorem}
 
 In this paper, it is proposed to use the s-score similarity function from \cite{Aduenko2017} as a measure of proximity of distributions:
-\[\text{s-score}(g_1, g_2) = \dfrac{\int_{\mathbf{w}} g_1(\mathbf{w}) g_2(\mathbf{w}) d\mathbf{w}}{\max_{\mathbf{b}} \int_{\mathbf{w}} g_1(\mathbf{w} - \mathbf{b}) g_2(\mathbf{w}) d\mathbf{w}}. \]
+\[\text{s-score}(g_1, g_2) = \frac{\int_{\mathbf{w}} g_1(\mathbf{w}) g_2(\mathbf{w}) d\mathbf{w}}{\max_{\mathbf{b}} \int_{\mathbf{w}} g_1(\mathbf{w} - \mathbf{b}) g_2(\mathbf{w}) d\mathbf{w}}. \]
 
 \begin{definition}
     Let's fix some positive number $\varepsilon > 0$. The sample size $m^*$ is called \textbf{S-sufficient} if for all $k\geqslant m^*$
@@ -181,22 +283,38 @@ For the definitions of KL-sufficiency and S-sufficiency, there is a hyperparamet
     \label{sufficient-vs-threshold}
 \end{figure}
 
+To compare the performance of the proposed method on different datasets, samples have been chosen from the open repository \cite{UCI}. The detailed information about each dataset, the number of observations and number of features, are provided in Table~\ref{table}. For demonstration purposes, a value of the hyperparameter $\varepsilon$ has been selected, at which the value of the target function, either $KL(k)$ or $S(k)$, decreases by half. The corresponding results are in Table~\ref{table}. Omissions mean that the initial sample size is not sufficient.
+
+\begin{table}
+    \centering
+    \caption{Datasets with regression task (omissions mean that the initial sample size is not sufficient)}\label{table}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Dataset name & Objects $m$ & Features $n$ & KL & S \\
+    \hline
+    Abalone & 4177 & 8 & 3751 & 3751\\
+    Auto MPG & 392 & 8 & 55 & --- \\
+    Automobile & 159 & 25 & 152 & --- \\
+    Liver Disorders & 345 & 6 & 282 & --- \\
+    Servo & 167 & 4 & 138 & 160 \\
+    Forest fires & 517 & 12 & 487 & --- \\
+    Wine Quality & 6497 & 12 & --- & --- \\
+    Energy Efficiency & 768 & 9 & --- & --- \\
+    Student Performance & 649 & 32 & --- & --- \\
+    Facebook Metrics & 495 & 18 & 379 & 475  \\
+    Real Estate Valuation & 414 & 7 & --- & --- \\
+    Heart Failure Clinical Records & 299 & 12 & 258 & 293 \\
+    Bone marrow transplant: children & 142 & 36 & 109 & --- \\
+    \hline
+    \end{tabular}
+\end{table}
+
 \section{Conclusion}
 
 Approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsamples are proposed. The correctness of the proposed approaches is proved under certain restrictions on the model used. The theorem on the moments of the limit posterior distribution of parameters in a linear regression model is proved. The conducted computational experiment makes it possible to analyze the properties of the proposed methods and their effectiveness.
 
-%
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
-\clearpage
-\bibliographystyle{splncs04}
-\bibliography{references}
-%
-
-\clearpage
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
 \appendix
 
 \section{Proof of Theorem \ref{theorem1}}
@@ -205,7 +323,7 @@ The Kullback-Leibler divergence for a pair of normal posterior distributions has
     \[ D_{\text{KL}}\left( p_k \| p_{k+1} \right) = \dfrac{1}{2} \left( \mathrm{tr}\left( \mathbf{\Sigma}_{k+1}^{-1} \mathbf{\Sigma}_k \right) + (\mathbf{m}_{k+1} - \mathbf{m}_k)\T \mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) - n + \log{\left( \dfrac{\det \mathbf{\Sigma}_{k+1}}{\det \mathbf{\Sigma}_{k}} \right)} \right). \]
     Let's express $\mathbf{\Sigma}_{k+1}$ as $\mathbf{\Sigma}_{k+1} = \mathbf{\Sigma}_k + \Delta\mathbf{\Sigma}$. Let's consider each term separately.
     \[ \mathrm{tr}\left( \mathbf{\Sigma}_{k+1}^{-1} \mathbf{\Sigma}_k \right) = \mathrm{tr}\left(\left(\mathbf{\Sigma}_k + \Delta \mathbf{\Sigma} \right)^{-1} \mathbf{\Sigma}_k \right) \to \mathrm{tr}\mathbf{I}_n=n\text{ as } \| \Delta \mathbf{\Sigma} \|_F \to 0, \]
-    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)\T\mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant\| \mathbf{m}_{k+1} -\mathbf{m}_k\|_2^2\|\mathbf{\Sigma}_{k+1}^{-1} \|_2 \ to 0 \text{ as } \| \mathbf{m}_{k+1} - \mathbf{m}_k\|_2 \to 0, \]
+    \[ \left| (\mathbf{m}_{k+1} - \mathbf{m}_k)\T\mathbf{\Sigma}_{k+1}^{-1} (\mathbf{m}_{k+1} - \mathbf{m}_k) \right| \leqslant\| \mathbf{m}_{k+1} -\mathbf{m}_k\|_2^2\|\mathbf{\Sigma}_{k+1}^{-1} \|_2 \to 0 \text{ as } \| \mathbf{m}_{k+1} - \mathbf{m}_k\|_2 \to 0, \]
     \[ \log{\left( \dfrac{\det \mathbf{\Sigma}_{k+1}}{\det \mathbf{\Sigma}_{k}} \right)} = \log{\left( \dfrac{\det \left( \mathbf{\Sigma}_k + \Delta \mathbf{\Sigma} \right)}{\det\mathbf{\Sigma}_{k}} \right)} \to \log \det\mathbf{I}_n = \log 1 = 0 \text{ as } \| \Delta \mathbf{\Sigma} \|_F\to 0, \]
     from where we have the required.
 \end{proof}
@@ -273,4 +391,25 @@ The second and third multipliers of the first term are evaluated as follows.
     Thus, we obtained the required convergence.
 \end{proof}
 
+
+%% If you have bibdatabase file and want bibtex to generate the
+%% bibitems, please use
+%%
+\bibliographystyle{elsarticle-num} 
+\bibliography{references}
+
+%% else use the following coding to input the bibitems directly in the
+%% TeX file.
+
+% \begin{thebibliography}{00}
+
+% %% \bibitem{label}
+% %% Text of bibliographic item
+
+% \bibitem{}
+
+% \end{thebibliography}
 \end{document}
+\endinput
+%%
+%% End of file `elsarticle-template-num.tex'.

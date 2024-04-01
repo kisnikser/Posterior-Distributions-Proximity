@@ -1,5 +1,6 @@
 import numpy as np
 from tqdm.auto import tqdm
+from prettytable import PrettyTable
 
 
 def posterior_parameters(mu_0, Sigma_0, X, y, sigma2=1):
@@ -35,7 +36,8 @@ def get_divergences_scores_eigvals(mu_0: np.ndarray,
                                     Sigma_0: np.ndarray,
                                     X: np.ndarray,
                                     y: np.ndarray,
-                                    B: int = 100):
+                                    B: int = 100,
+                                    num_sample_size: int = None):
     """
     Calculate KL-divergences, s-scores and minimum eigvals for given dataset and prior parameters.
     
@@ -45,7 +47,8 @@ def get_divergences_scores_eigvals(mu_0: np.ndarray,
         X: np.ndarray - Matrix objects-features.
         y: np.ndarray - Target vector.
         B: int = 100 - Number of iterations to get mean.
-    
+        num_sample_sizes: int = None - Number of sample sizes to use (for computational simplicity)
+        
     Returns:
         divergences: np.ndarray - KL-divergences.
         scores: np.ndarray - s-scores.
@@ -55,18 +58,25 @@ def get_divergences_scores_eigvals(mu_0: np.ndarray,
     divergences = []
     scores = []
     eigvals = []
+    
+    if num_sample_size is None:
+        sample_sizes = np.arange(X.shape[1]+1, X.shape[0]+1)[::-1]
+    else:
+        if X.shape[0] - X.shape[1] < num_sample_size:
+            sample_sizes = np.arange(X.shape[1]+1, X.shape[0]+1)[::-1]
+        else:
+            sample_sizes = np.linspace(X.shape[1]+1, X.shape[0], num_sample_size, dtype=int)[::-1]
 
     for _ in tqdm(range(B)):
         
         tmp_divergences = []
         tmp_scores = []
         tmp_eigvals = []
-        k = X.shape[0] - 1
         X_kp1, y_kp1 = X, y
         mu_kp1, Sigma_kp1 = posterior_parameters(mu_0, Sigma_0, X_kp1, y_kp1)
 
-        while k >= X.shape[1] + 1:
-            idx = np.random.randint(k)
+        for i in range(1, len(sample_sizes)):
+            idx = np.random.randint(sample_sizes[i])
             X_k, y_k = np.delete(X_kp1, idx, axis=0), np.delete(y_kp1, idx, axis=0)
             mu_k, Sigma_k = posterior_parameters(mu_0, Sigma_0, X_k, y_k)
             tmp_divergences.append(KL(mu_k, Sigma_k, mu_kp1, Sigma_kp1))
@@ -74,7 +84,6 @@ def get_divergences_scores_eigvals(mu_0: np.ndarray,
             tmp_eigvals.append(np.linalg.eigvalsh(X_k.T @ X_k)[0])
             X_kp1, y_kp1 = X_k, y_k
             mu_kp1, Sigma_kp1 = mu_k, Sigma_k
-            k -= 1
             
         divergences.append(tmp_divergences)
         scores.append(tmp_scores)
@@ -145,3 +154,34 @@ def sufficient_vs_threshold(sample_sizes: np.ndarray,
     return sufficient
     
     
+def get_regression_results(eps: float, 
+                           num_sample_size: int = 50,
+                           datasets_regression=None,
+                           datasets_regression_names=None,
+                           divergences_regression=None,
+                           scores_regression=None):
+    """Return table with sufficient sample size determination results on different datasets."""
+
+    table = PrettyTable()
+    table.field_names = ["Dataset", "KL-sufficient", "S-sufficient"]
+    for name in datasets_regression_names.values():
+        
+        X = datasets_regression[name][0]
+        if X.shape[0] - X.shape[1] < num_sample_size:
+            sample_sizes = np.arange(X.shape[0]+1, X.shape[0])
+        else:
+            sample_sizes = np.linspace(X.shape[1]+1, X.shape[0], num_sample_size, dtype=int)
+        
+        kl_sufficient = sufficient_sample_size(sample_sizes=sample_sizes,
+                                                divergences=divergences_regression[name],
+                                                scores=scores_regression[name],
+                                                eps=eps,
+                                                method='kl-div')
+        s_sufficient = sufficient_sample_size(sample_sizes=sample_sizes,
+                                                divergences=divergences_regression[name],
+                                                scores=scores_regression[name],
+                                                eps=eps,
+                                                method='s-score')
+        table.add_row([name, kl_sufficient, s_sufficient])
+    
+    return table
