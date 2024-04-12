@@ -1,7 +1,5 @@
 # Sample Size Determination: Posterior Distributions Proximity
 
-This repository contains the paper, figures, and code for the paper "Sample Size Determination: Posterior Distributions Proximity".
-
 **Author:** Nikita Kiselev
 
 **Advisor:** Andrey Grabovoy
