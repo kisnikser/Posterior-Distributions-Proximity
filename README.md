@@ -19,8 +19,8 @@ We show that these two methods are valid for the model with normal posterior dis
 Computational experiments demonstrate the convergence of the proposed functions as the sample size increases.
 
 ## Overview
-<div alogn="center">
-  <img width="70%" alt="overview" src="https://github.com/kisnikser/Posterior-Distributions-Proximity/assets/70231416/1765dacb-a3f0-4be2-84c6-c997a0a22884">
+<div align="center">
+  <img alt="overview" src="https://github.com/kisnikser/Posterior-Distributions-Proximity/assets/70231416/1765dacb-a3f0-4be2-84c6-c997a0a22884">
 </div>
 
 
