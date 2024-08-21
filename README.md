@@ -63,6 +63,9 @@ All these methods were utilized with the help of [SampleSizeLib](https://github.
 | **KL (ours)** | **493** | **437** | **86** | **165** |
 | **S (ours)** | **28** | **22** | **26** | **10** |
 
+The results show that KL-divergence criterion is much more conservative, as it requires more sample size. 
+In contrast, S-sufficiency tells us that an almost minimal number of objects in the sample is required. 
+
 ### Dependence of the sufficient sample size on available sample set
 We have made a comprehensive analysis of the various sample size determination methods. 
 We have analysed, how the sufficient sample size depends on the available sample set. 
