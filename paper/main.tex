@@ -113,7 +113,7 @@
 %% Sample for unstructured abstract %%
 %%==================================%%
 
-\abstract{The issue of sample size determination is crucial for constructing an effective machine learning model. However, the existing methods for determining a sufficient sample size are either not strictly proven, or relate to the specific statistical hypothesis about the distribution of model parameters. In this paper we present two approaches based on the proximity of posterior distributions of model parameters on similar subsamples. We show that these two methods are valid for the model with normal posterior distribution of parameters. Computational experiments demonstrate the convergence of the proposed functions as the sample size increases.}
+\abstract{The issue of sample size determination is crucial for constructing an effective machine learning model. However, the existing methods for determining a sufficient sample size are either not strictly proven, or relate to the specific statistical hypothesis about the distribution of model parameters. In this paper we present two approaches based on the proximity of posterior distributions of model parameters on similar subsamples. We show that these two methods are valid for the model with normal posterior distribution of parameters. Computational experiments demonstrate the convergence of the proposed functions as the sample size increases. We also compare the proposed methods with other approaches on different datasets.}
 
 \keywords{Sufficient sample size, Posterior distributions proximity, Normal posterior distribution, Linear regression}
 
@@ -137,11 +137,16 @@ The Bayesian approach also has a place in this problem. In the work \cite{Lindle
 
 Authors like \cite{Brutti2014}, as well as \cite{Pezeshk2008}, discuss the differences between Bayesian and frequentist approaches in determining sample size. They also propose robust methods for the Bayesian approach and provide illustrative examples for some probabilistic models.
 
-In the paper \cite{Grabovoy2022}, various methods for estimating sample size in generalized linear models are considered, including statistical, heuristic, and Bayesian methods. Methods such as Lagrange Multiplier Test, Likelihood Ratio Test, Wald Test, Cross-Validation, Bootstrap, Kullback-Leibler Criterion, Average Posterior Variance Criterion, Average Coverage Criterion, Average Length Criterion, and Utility Maximization are analyzed. The authors point out the potential development of combining Bayesian and statistical approaches to estimate sample size for insufficient available sample sizes.
+In the paper \cite{Grabovoy2022}, various methods for estimating sample size in generalized linear models are considered, including statistical, heuristic, and Bayesian methods. Methods such as Lagrange Multiplier Test, Likelihood Ratio Test, Wald Test, Cross-Validation, Bootstrap, Kullback-Leibler Criterion, Average Posterior Variance Criterion, Average Coverage Criterion, Average Length Criterion, and Utility Maximization are analyzed. The authors point out the potential development of combining Bayesian and statistical approaches to estimate sample size for insufficient available sample sizes, which is a pre hoc sample size estimation.
 
 In \cite{MOTRENKO2014743} a method for determining sample size in logistic regression is discussed, using cross-validation and Kullback-Leibler divergence between posterior distributions of model parameters on similar subsamples. Similar subsamples are those that can be obtained from each other by adding, removing, or replacing one object.
 
-In this paper, two approaches based on the distance between the posterior distributions are presented. It is proposed to consider two similar subsamples. The posterior distributions of the model parameters over these subsamples turn out to be close if the sample size is sufficient. It is proposed to use the Kullback-Leibler divergence \cite{MOTRENKO2014743} as a measure of the proximity of distributions, as well as the s-score model comparison function \cite{Aduenko2017}. The novelty of this work lies in proving the correctness of the proposed methods. Correctness is proved in a probabilistic model with a normal posterior distribution of parameters. For the linear regression model, the theorem on the moments of the limit posterior distribution of parameters is proved.
+In this paper, two approaches based on the distance between the posterior distributions are presented. It is proposed to consider two similar subsamples. The posterior distributions of the model parameters over these subsamples turn out to be close if the sample size is sufficient. It is proposed to use the Kullback-Leibler divergence \cite{MOTRENKO2014743} as a measure of the proximity of distributions, as well as the s-score model comparison function \cite{Aduenko2017}. 
+
+The novelty of this work lies in proving the correctness of the proposed methods. The correctness of the definition for a given model implies that the corresponding function  converges to zero as the sample size increases. This establishes a foundation for selecting a specific sample size based on the descending of the respective function. Correctness is proved in a probabilistic model with a normal posterior distribution of parameters. For the linear regression model, the theorem on the moments of the limit posterior distribution of parameters is proved.
+
+Through the detailed empirical study, we compare our methods with others. This comparison allows to conclude the main features of the methods we propose. Namely, that KL-sufficient sample size is typically the largest, while S-sufficient, on the contrary, is the smallest. The reason for this lies in the functions used to compare probability distributions. We encourage the reader to familiarize with the experiment code at the following link: 
+\href{https://github.com/kisnikser/Posterior-Distributions-Proximity}{https://github.com/kisnikser/Posterior-Distributions-Proximity}.
 
 \section{Problem statement}
 An object is defined as a pair $(\mathbf{x}, y)$, where $\mathbf{x} \in \mathbb{X} \subseteq \mathbb{R}^n$ is the feature vector, and $y \in \mathbb{Y}$ is the target variable. In regression problems $\mathbb{Y} = \mathbb{R}$, and in $K$-class classification problems $\mathbb{Y} = \{1, \ldots, K\}$.
@@ -161,6 +166,8 @@ The task is to determine the sufficient sample size $m^*$. Let a criterion $T$ b
 \begin{definition}
     The sample size $m^*$ is called \textbf{sufficient} according to the criterion $T$, if $T$ holds for all $k \geqslant m^*$.
 \end{definition}
+
+Specifically, the criterion may include information about the quality of the resulting model. For instance, the Accuracy metric might take a value greater than 80\%, or the criterion could be based on a certain degree of stability in the set of optimal parameters obtained. This aspect is explored in our subsequent work, as stability is understood here in terms of a minor change in the posterior distribution of model parameters.
 
 \section{Proposed sample size determination methods}
 In \cite{MOTRENKO2014743}, it is suggested to use the Kullback-Leibler divergence to estimate a sufficient sample size in a binary classification problem. The idea is based on the fact that if two subsamples differ from each other by one object, then the posterior distributions obtained from them should be close. This proximity is determined by the Kullback-Leibler divergence. 
@@ -188,6 +195,8 @@ For a pair of normal distributions, the Kullback-Leibler divergence has a fairly
     Let $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2 \to 0$ and $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_{F}\to 0$ as $k\to \infty$. Then, in a model with a normal posterior distribution of parameters, the definition of a KL-sufficient sample size is correct. Namely, for any $\varepsilon > 0$, there is such a $m^*$ that for all $k\geqslant m^*$ $KL(k)\leqslant\varepsilon$ is satisfied.
 \end{theorem}
 
+This statement implies that the distance between two gaussian distributions approaches zero as their mean vectors and covariance matrices converge. This allows us to delve deeper into the issue of the convergence of the Kullback–Leibler divergence by examining analytical expressions for expectations and variances.
+
 In this paper, it is proposed to use the s-score similarity function from \cite{Aduenko2017} as a measure of proximity of distributions:
 \[\text{s-score}(g_1, g_2) = \frac{\int_{\mathbf{w}} g_1(\mathbf{w}) g_2(\mathbf{w}) d\mathbf{w}}{\max_{\mathbf{b}} \int_{\mathbf{w}} g_1(\mathbf{w} - \mathbf{b}) g_2(\mathbf{w}) d\mathbf{w}}. \]
 
@@ -202,19 +211,31 @@ As in the case of a KL-sufficient sample size, in a model with a normal posterio
     Let $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$ as $k \to \infty$. Then, in a model with a normal posterior distribution of parameters, the definition of an S-sufficient sample size is correct. Namely, for any $\varepsilon > 0$, there is such a $m^*$ that for all $k\geqslant m^*$ $S(k)\geqslant 1-\varepsilon$ is satisfied.
 \end{theorem}
 
+The significance of this theorem is similar to that of Theorem~\ref{theorem1}. In essence, the closeness of normal distributions in terms of the s-score similarity function reduces to the convergence of their means. Notably, unlike Theorem~\ref{theorem1}, convergence of the covariance matrices is not necessary here.
+
 Let the linear regression model have a normal prior distribution of parameters. By the conjugacy property of the prior distribution and likelihood, the posterior distribution is also normal. Thus, we come to one of the simplest examples of a model for which the theorems presented above are valid. In fact, simpler statements can be formulated for linear regression.
 
 \begin{theorem}\label{theorem3}
     Let the sets of values of the features and the target variable be bounded, that is, $\exists M\in \mathbb{R}:$ $\|\mathbf{x}\|_2\leqslant M$ and $|y|\leqslant M$. If $\lambda_{\min}\left(\mathbf{X}\T_k \mathbf{X}_k \right) = \omega(\sqrt{k})$ for $k\to \infty$, then in a linear regression model with a normal prior distribution of parameters $\|\mathbf{m}_{k+1} - \mathbf{m}_k\|_2\to 0$ and $\|\mathbf{\Sigma}_{k+1} - \mathbf{\Sigma}_k\|_{F}\to 0$ as $k\to \infty$.
 \end{theorem}
 
+This theorem is of primary importance in this paper. Its distinctive feature is that, under mild and straightforward assumptions, it implies the convergence of the moments of the posterior distribution of parameters.
+
+The first assumption in Theorem~\ref{theorem3} relates to the restriction on the range of values for the features and target variable. This is common in practical applications, so it serves primarily for theoretical analysis purposes.
+
+The second condition of Theorem~\ref{theorem3} is of greater interest, as it delves into the behavior of the minimum eigenvalue of the sample covariance matrix of features. Unfortunately, this paper does not provide theoretical guarantees for this convergence, although it is verified through experiments. This can be regarded as a limitation, so we will try to reveal this in the future work.
+
 \section{Computational experiment}
 
-This section provides an empirical study of the proposed methods. Experiments were conducted on synthetic data and dataset Liver Disorders from \cite{UCI}. 
+This section provides an extensive empirical study of the proposed methods. Experiments consist of several parts. In the first one, we verify the convergences obtained trough the theoretical analysis. Further, we make size estimations for various sample sets using different approaches. Finally, we study the dependence of the sufficient sample size on available sample set.
 
-Synthetic data is generated from a linear regression model. The number of objects is 500, the number of features is 10. One object is sequentially removed from the given sample until the number of objects in the subsample is equal to the number of features. For each sample size $k$ we calculate the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. Also, the values of $KL(k)$ and $S(k)$ are calculated. This process is repeated $B=100$ times.
+\subsection{Convergence Verification}
 
-Regression dataset Liver Disorders has 345 objects and 5 features. We also sequentially remove objects from sample one by one. Minimum eigenvalue and function values are calculated. This process is repeated $B=1000$ times.
+Here we study whether the theoretical convergences we have obtained are actually observed in practice. Namely, first we look at the behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k^\top \mathbf{X}_k$ as the sample size increases. Then we investigate the convergence of the proposed functions $KL(k)$ and $S(k)$. Finally, the dependence of sufficient sample size of the threshold parameters is studied. The experiment is conducted on two datasets: synthetic regression and Liver Disorders. 
+
+Synthetic data is generated from a linear regression model. The number of objects is 500, the number of features is 10. To generate a synthetic regression dataset, we have sampled original features, model parameters, and noise residuals from the standard normal distribution. The prior distribution of parameters was set to standard normal too, both for synthetic regression and Liver Disorders datasets, which has 345 objects and 5 features.  We have preprocessed the input features using standard scaler.
+
+One object is sequentially removed from the given sample until the number of objects in the subsample is equal to the number of features. For each sample size $k$ we calculate the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. Also, the values of $KL(k)$ and $S(k)$ are calculated. This process is repeated $B=100$ times.
 
 Fig.~\ref{eigvals} shows the asymptotic behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. We see that when the sample size tends to infinity, the minimum eigenvalue also tends to infinity. Meanwhile, as is necessary for the Theorem~\ref{theorem3}, the graph is higher than $\sqrt{k}$.
 
@@ -250,36 +271,80 @@ For the definitions of KL-sufficiency and S-sufficiency, there is a hyperparamet
     \label{sufficient-vs-threshold}
 \end{figure}
 
-To compare the performance of the proposed method on different datasets, samples have been chosen from the open repository \cite{UCI}. The detailed information about each dataset, the number of observations and number of features, are provided in Table~\ref{table}. For demonstration purposes, a value of the hyperparameter $\varepsilon$ has been selected, at which the value of the target function, either $KL(k)$ or $S(k)$, decreases by half. The corresponding results are in Table~\ref{table}. Omissions mean that the initial sample size is not sufficient.
+\subsection{Sample size estimation for various datasets}
+
+To compare our proposed methods with baselines, we used the following experiment setup. The machine learning model is linear regression. We have chosen 4 open-source datasets with regression task: Boston, Diabetes, Forestfires, and Servo. Their descriprive statistics are provided in the Table~\ref{table:descr}. We have applied 9 different baseline methods of sample size estimation on them: Lagrange Multipliers Test, Likelihood Ratio Test, Wald Test, Cross Validation, Bootstrap, Average Posterior Variance Criterion (APVC), Average Coverage Criterion (ACC), Average Length Criterion (ALC), and Utility function. Default parameters values were used for this purpose. All these methods were utilized with the help of \href{https://github.com/andriygav/SampleSizeLib}{SampleSizeLib}. As for our methods, we slightly changed the definitions of sufficiency, transferring them to terms of relative change. Namely, we consider the sample size to be sufficient if the $KL(k)$ function has a relative deviation from its value in the entire sample of no more than $\varepsilon$. Similarly with the $S(k)$ function. We fixed $\varepsilon=0.05$ and got the resulting sample sizes. This value was chosen, because other methods, especially statistical, use $0.05$ as a value of type~I error.
 
 \begin{table}[ht]
     \centering
-    \caption{Datasets with regression task (omissions mean that the initial sample size is not sufficient)}\label{table}
-    \begin{tabular}{ccccc}
-    \toprule
-    Dataset name & Objects $m$ & Features $n$ & KL & S \\
-    \midrule
-    Abalone & 4177 & 8 & 3751 & 3751\\
-    Auto MPG & 392 & 8 & 55 & --- \\
-    Automobile & 159 & 25 & 152 & --- \\
-    Liver Disorders & 345 & 6 & 282 & --- \\
-    Servo & 167 & 4 & 138 & 160 \\
-    Forest fires & 517 & 12 & 487 & --- \\
-    Wine Quality & 6497 & 12 & --- & --- \\
-    Energy Efficiency & 768 & 9 & --- & --- \\
-    Student Performance & 649 & 32 & --- & --- \\
-    Facebook Metrics & 495 & 18 & 379 & 475  \\
-    Real Estate Valuation & 414 & 7 & --- & --- \\
-    Heart Failure Clinical Records & 299 & 12 & 258 & 293 \\
-    Bone marrow transplant: children & 142 & 36 & 109 & --- \\
-    \botrule
+    \caption{Descriptive statistics of the sample sets}\label{table:descr}
+    \begin{tabular}{lcc}
+    \hline
+        \toprule
+        Sample set & Number of features, $n$ & Size of sample set, $m$ \\ 
+        \midrule
+        Boston Housing & 14 & 506 \\ 
+        Diabetes & 20 & 576 \\ 
+        Forest Fires & 13 & 517 \\ 
+        Servo & 4 & 167 \\ 
+        \botrule
     \end{tabular}
 \end{table}
+
+\begin{table}[ht]
+    \centering
+    \caption{Experimental estimation of sample size for various sample sets}\label{table:results}
+    \begin{tabular}{lcccc}
+    \hline
+        \toprule
+        Methods and sample sets & Boston & Diabetes & Forest Fires & Servo \\ 
+        \midrule
+        Lagrange Multipliers Test & 18 & 25 & 44 & 38 \\
+        Likelihood Ratio Test & 17 & 25 & 43 & 18 \\
+        Wald Test & 66 & 51 & 46 & 76 \\ 
+        Cross Validation & 178 & 441 & 171 & 120 \\ 
+        Bootstrap & 113 & 117 & 86 & 60 \\ 
+        APVC & 98 & 167 & 351 & 20 \\ 
+        ACC & 228 & 441 & 346 & 65 \\ 
+        ALC & 98 & 267 & 516 & 25 \\ 
+        Utility function & 148 & 172 & 206 & 105 \\ 
+        \midrule
+        KL (ours) & 493 & 437 & 86 & 165 \\ 
+        S (ours) & 28 & 22 & 26 & 10 \\
+        \botrule
+    \end{tabular}
+\end{table}
+
+The results in Table~\ref{table:results} indicate that the KL-divergence criterion is more conservative, requiring a larger sample size, whereas the S-sufficiency criterion suggests that a minimal sample size is sufficient. We believe this is a typical outcome for the s-score similarity function, which was designed for comparing different machine learning models, particularly in cases with uninformative distributions. If the distributions have high variance, the proximity function approaches one, leading the criterion to consider even a small sample size as sufficient.
+
+\subsection{Dependence of sufficient sample size on available datasets}
+
+This part includes the most comprehensive analysis of the various sample size determination methods. We analyse how the sufficient sample size depends on the available sample set. Particularly, we increase the sample size, and calculate the sufficient one, based on the different methods. Thus, we get the Figure~\ref{dependence_on_available_sample_set}, which allows us to compare the above methods in terms of their conservatism. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{dependence_on_available_sample_set.pdf}
+    \caption{Estimated sample size $m^*$ versus the available sample size $m$ for each method}
+    \label{dependence_on_available_sample_set}
+\end{figure}
+
+One can see that S-sufficient sample size is often the minimum one. We have already discussed the reason of it in the previous subsection. Also, the KL-sufficient sample size tends to require an almost total sample. In our opinion, this is due to the fact that the Kullback-Leibler divergence is extremely sensitive to changes in the mean and variance of the distributions being compared. Thus, the stabilization of the distance between them occurs quite late.
+
+\section{Discussion}
+
+In this paper, we have assumed that the posterior distribution of model parameters is gaussian. This assumption allowed us to significantly simplify the theoretical calculations. Namely, we were able to write down explicit formulas for the Kullback-Leibler divergence and the s-score similarity function. This can be attributed to one of the limitations of this work. Nevertheless, we believe that getting rid of this condition significantly complicates the theoretical analysis. This is most significant for the s-score similarity function, since an analytical expression without integration is available for it only in the case of the distance between normal distributions. We hope that our results can become the basis for further research in this direction. We will also try to reveal this assumption about the non-normal posterior distribution of parameters in our future work.
+
+In the experiments section, we used proposed methods in the relative way, calculating the relative deviation from the value on the entire dataset. Thus, we suggest doing the same in practice. Note that the choice of the threshold remains with the researcher. However, we recommend choosing small values, for example, $0.05$ or $0.1$.
+
+The potential challenge consists only in calculating the Kullback-Leibler divergence and the s-score similarity function. Both formulas for the normal distribution involve inversion of the covariance matrix. The greater the number of features in the dataset, the more critical this calculation will be. Thus, we do not recommend using these approaches for very large models, especially neural network models. We plan to develop research in this direction in the future.
+
+Regarding the comparison of KL and S-sufficiency, we discussed this issue in detail in the experiments section. Namely, if there is a desire to get a more conservative estimate, then we recommend using KL-divergence. If a more optimistic estimate is required, then s-score similarity function.
 
 \section{Conclusion}
 
 Approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsamples are proposed. The correctness of the proposed approaches is proved under certain restrictions on the model used. The theorem on the moments of the limit posterior distribution of parameters in a linear regression model is proved. The conducted computational experiment makes it possible to analyze the properties of the proposed methods and their effectiveness.
 
+\newpage
 \begin{appendices}
 
 \section{Proof of Theorem \ref{theorem1}}
