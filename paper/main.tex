@@ -145,8 +145,7 @@ In this paper, two approaches based on the distance between the posterior distri
 
 The novelty of this work lies in proving the correctness of the proposed methods. The correctness of the definition for a given model implies that the corresponding function  converges to zero as the sample size increases. This establishes a foundation for selecting a specific sample size based on the descending of the respective function. Correctness is proved in a probabilistic model with a normal posterior distribution of parameters. For the linear regression model, the theorem on the moments of the limit posterior distribution of parameters is proved.
 
-Through the detailed empirical study, we compare our methods with others. This comparison allows to conclude the main features of the methods we propose. Namely, that KL-sufficient sample size is typically the largest, while S-sufficient, on the contrary, is the smallest. The reason for this lies in the functions used to compare probability distributions. We encourage the reader to familiarize with the experiment code at the following link: 
-\href{https://github.com/kisnikser/Posterior-Distributions-Proximity}{https://github.com/kisnikser/Posterior-Distributions-Proximity}.
+Through the detailed empirical study, we compare our methods with others. This comparison allows to conclude the main features of the methods we propose. Namely, that KL-sufficient sample size is typically the largest, while S-sufficient, on the contrary, is the smallest. The reason for this lies in the functions used to compare probability distributions. We encourage the reader to familiarize with the experiment code\footnote{\href{https://github.com/kisnikser/Posterior-Distributions-Proximity}{https://github.com/kisnikser/Posterior-Distributions-Proximity}}.
 
 \section{Problem statement}
 An object is defined as a pair $(\mathbf{x}, y)$, where $\mathbf{x} \in \mathbb{X} \subseteq \mathbb{R}^n$ is the feature vector, and $y \in \mathbb{Y}$ is the target variable. In regression problems $\mathbb{Y} = \mathbb{R}$, and in $K$-class classification problems $\mathbb{Y} = \{1, \ldots, K\}$.
@@ -229,7 +228,7 @@ The second condition of Theorem~\ref{theorem3} is of greater interest, as it del
 
 This section provides an extensive empirical study of the proposed methods. Experiments consist of several parts. In the first one, we verify the convergences obtained trough the theoretical analysis. Further, we make size estimations for various sample sets using different approaches. Finally, we study the dependence of the sufficient sample size on available sample set.
 
-\subsection{Convergence Verification}
+\subsection{Convergence verification}
 
 Here we study whether the theoretical convergences we have obtained are actually observed in practice. Namely, first we look at the behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k^\top \mathbf{X}_k$ as the sample size increases. Then we investigate the convergence of the proposed functions $KL(k)$ and $S(k)$. Finally, the dependence of sufficient sample size of the threshold parameters is studied. The experiment is conducted on two datasets: synthetic regression and Liver Disorders. 
 
@@ -237,54 +236,56 @@ Synthetic data is generated from a linear regression model. The number of object
 
 One object is sequentially removed from the given sample until the number of objects in the subsample is equal to the number of features. For each sample size $k$ we calculate the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. Also, the values of $KL(k)$ and $S(k)$ are calculated. This process is repeated $B=100$ times.
 
-Fig.~\ref{eigvals} shows the asymptotic behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. We see that when the sample size tends to infinity, the minimum eigenvalue also tends to infinity. Meanwhile, as is necessary for the Theorem~\ref{theorem3}, the graph is higher than $\sqrt{k}$.
-
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{eigvals}
-    \caption{Minimum eigenvalue vs available sample size}
+    \caption{Minimum eigenvalue versus the available sample set size. The estimated graph, which is blue, for large sample sizes is higher than the orange graph of the power function. This asymptotic behavior of minimum eigenvalue corresponds to the theoretical results obtained.}
     \label{eigvals}
 \end{figure}
-
-In the Fig.~\ref{synthetic-regression}, we can observe the obtained dependencies between the available sample size $k$ and the proposed functions $KL(k)$ and $S(k)$ for the synthetic regression dataset. At the same time, in the Fig.~\ref{liver-disorders}, we see the same plots for the Liver Disorders dataset. It can be seen that in both cases, the value of $KL(k)$ approaches zero as the sample size increases, and $S(k)$ tends towards one. These empirical results confirm the theoretical ones obtained earlier.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{synthetic-regression}
-    \caption{Synthetic regression dataset}
+    \caption{Synthetic regression dataset provides results for the convergence of the proposed sample size estimation functions. The left one corresponds to the Kullback-Leibler divergence, and tends to zero, while the right one tends to one, exhibiting the behavior of s-score similarity function.}
     \label{synthetic-regression}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{liver-disorders}
-    \caption{Liver Disorders dataset}
+    \caption{Liver Disorders dataset provides results for the convergence of the proposed sample size estimation functions. On the left, we have the Kullback-Leibler divergence, which tends towards zero as the sample size increases. On the right, we have the s-score similarity function, which tends to one as the sample size approaches infinity.}
     \label{liver-disorders}
 \end{figure}
+
+Fig.~\ref{eigvals} shows the asymptotic behavior of the minimum eigenvalue of the matrix $\mathbf{X}_k\T \mathbf{X}_k$. We see that when the sample size tends to infinity, the minimum eigenvalue also tends to infinity. Meanwhile, as is necessary for the Theorem~\ref{theorem3}, the graph is higher than $\sqrt{k}$.
+
+In the Fig.~\ref{synthetic-regression}, we can observe the obtained dependencies between the available sample size $k$ and the proposed functions $KL(k)$ and $S(k)$ for the synthetic regression dataset. At the same time, in the Fig.~\ref{liver-disorders}, we see the same plots for the Liver Disorders dataset. It can be seen that in both cases, the value of $KL(k)$ approaches zero as the sample size increases, and $S(k)$ tends towards one. These empirical results confirm the theoretical ones obtained earlier.
 
 For the definitions of KL-sufficiency and S-sufficiency, there is a hyperparameter $\varepsilon$, which corresponds to the threshold for a sufficient sample size $m^*$. In order to study the dependence between them, we introduce Fig.~\ref{sufficient-vs-threshold}, which shows what sample sizes can be chosen to provide a certain level of confidence.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{sufficient-vs-threshold}
-    \caption{Sufficient sample size vs threshold}
+    \caption{Sufficient sample size versus the threshold parameter. S-sufficient sample size requires lower threshold values. Thus, it turns out to be more demanding of this value.}
     \label{sufficient-vs-threshold}
 \end{figure}
 
 \subsection{Sample size estimation for various datasets}
 
-To compare our proposed methods with baselines, we used the following experiment setup. The machine learning model is linear regression. We have chosen 4 open-source datasets with regression task: Boston, Diabetes, Forestfires, and Servo. Their descriprive statistics are provided in the Table~\ref{table:descr}. We have applied 9 different baseline methods of sample size estimation on them: Lagrange Multipliers Test, Likelihood Ratio Test, Wald Test, Cross Validation, Bootstrap, Average Posterior Variance Criterion (APVC), Average Coverage Criterion (ACC), Average Length Criterion (ALC), and Utility function. Default parameters values were used for this purpose. All these methods were utilized with the help of \href{https://github.com/andriygav/SampleSizeLib}{SampleSizeLib}. As for our methods, we slightly changed the definitions of sufficiency, transferring them to terms of relative change. Namely, we consider the sample size to be sufficient if the $KL(k)$ function has a relative deviation from its value in the entire sample of no more than $\varepsilon$. Similarly with the $S(k)$ function. We fixed $\varepsilon=0.05$ and got the resulting sample sizes. This value was chosen, because other methods, especially statistical, use $0.05$ as a value of type~I error.
+To compare our proposed methods with baselines, we used the following experiment setup. The machine learning model is linear regression. We have chosen 4 open-source datasets with regression task: Boston, Diabetes, Forestfires, and Servo. Their descriprive statistics are provided in the Table~\ref{table:descr}. We have applied 9 different baseline methods of sample size estimation on them: Lagrange Multipliers Test, Likelihood Ratio Test, Wald Test, Cross Validation, Bootstrap, Average Posterior Variance Criterion (APVC), Average Coverage Criterion (ACC), Average Length Criterion (ALC), and Utility function. They were analyzed in detail in \cite{Grabovoy2022}. Default parameters values of these methods were used. All these methods were utilized with the help of the corresponding library\footnote{\href{https://github.com/andriygav/SampleSizeLib}{https://github.com/andriygav/SampleSizeLib}}. 
+
+As for our methods, we slightly changed the definitions of sufficiency, transferring them to terms of relative change. Namely, we consider the sample size to be sufficient if the $KL(k)$ function has a relative deviation from its value in the entire sample of no more than $\varepsilon$. Similarly with the $S(k)$ function. We fixed $\varepsilon=0.05$ and got the resulting sample sizes. This value was chosen, because other methods, especially statistical, use $0.05$ as a value of type~I error.
 
 \begin{table}[ht]
     \centering
-    \caption{Descriptive statistics of the sample sets}\label{table:descr}
+    \caption{Descriptive statistics of the sample sets.}\label{table:descr}
     \begin{tabular}{lcc}
     \hline
         \toprule
         Sample set & Number of features, $n$ & Size of sample set, $m$ \\ 
         \midrule
         Boston Housing & 14 & 506 \\ 
-        Diabetes & 20 & 576 \\ 
+        Diabetes & 10 & 576 \\ 
         Forest Fires & 13 & 517 \\ 
         Servo & 4 & 167 \\ 
         \botrule
@@ -293,7 +294,7 @@ To compare our proposed methods with baselines, we used the following experiment
 
 \begin{table}[ht]
     \centering
-    \caption{Experimental estimation of sample size for various sample sets}\label{table:results}
+    \caption{Experimental estimation of sample size for various sample sets.}\label{table:results}
     \begin{tabular}{lcccc}
     \hline
         \toprule
@@ -324,7 +325,7 @@ This part includes the most comprehensive analysis of the various sample size de
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{dependence_on_available_sample_set.pdf}
-    \caption{Estimated sample size $m^*$ versus the available sample size $m$ for each method}
+    \caption{Estimated sample size $m^*$ versus the available sample size $m$ for each method. The KL-divergence criterion is more conservative and requires a larger sample size. The S-sufficiency criterion, on the other hand, suggests that a minimal sample size may be sufficient.}
     \label{dependence_on_available_sample_set}
 \end{figure}
 
@@ -342,7 +343,9 @@ Regarding the comparison of KL and S-sufficiency, we discussed this issue in det
 
 \section{Conclusion}
 
-Approaches to determining a sufficient sample size based on the proximity of posterior distributions of model parameters on similar subsamples are proposed. The correctness of the proposed approaches is proved under certain restrictions on the model used. The theorem on the moments of the limit posterior distribution of parameters in a linear regression model is proved. The conducted computational experiment makes it possible to analyze the properties of the proposed methods and their effectiveness.
+In this paper, we proposed methods for determining sufficient sample sizes by examining the proximity of posterior distributions of model parameters across subsamples. We proved the validity of these methods under certain model restrictions and demonstrated their effectiveness through computational experiments. While our assumption of a gaussian posterior distribution simplified the derivation of explicit formulas for the Kullback-Leibler divergence and s-score similarity function, it also limits the generalizability of our results. Future research will need to explore scenarios with non-normal posterior distributions.
+
+Practically, we recommend calculating relative deviations from values based on the entire dataset, using small thresholds like 0.05 or 0.1. However, the computational complexity involved, especially the inversion of the covariance matrix, may limit the applicability of these methods to very large models, such as neural networks. When choosing between KL-divergence and s-score similarity, the former offers a more conservative estimate, while the latter is more optimistic. We hope this work lays the groundwork for further research, particularly in the context of more complicated machine learning models.
 
 \newpage
 \begin{appendices}
