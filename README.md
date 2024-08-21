@@ -23,6 +23,61 @@ Computational experiments demonstrate the convergence of the proposed functions 
   <img alt="overview" src="https://github.com/kisnikser/Posterior-Distributions-Proximity/assets/70231416/1765dacb-a3f0-4be2-84c6-c997a0a22884">
 </div>
 
+## ⚖️ Comparison
+
+### Size estimations for various sample sets
+To compare our proposed methods with baselines, we used the following experiment setup. 
+
+We have chosen 4 open-source datasets with regression task: 
+- Boston,
+- Diabetes,
+- Forestfires,
+- Servo.
+
+We have applied 9 different baseline methods of sample size estimation on them: 
+- Lagrange Multipliers Test,
+- Likelihood Ratio Test,
+- Wald Test,
+- Cross Validation,
+- Bootstrap,
+- Average Posterior Variance Criterion (APVC),
+- Average Coverage Criterion (ACC),
+- Average Length Criterion (ALC),
+- Utility function.
+  
+Default parameters values were used for this purpose.
+All these methods were utilized with the help of [SampleSizeLib](https://github.com/andriygav/SampleSizeLib).
+
+| Methods and sample sets | Boston | Diabetes | Forest Fires | Servo |
+| --- | --- | --- | --- | --- |
+| Lagrange Multipliers Test | 18 | 25 | 44 | 38 |
+| Likelihood Ratio Test | 17 | 25 | 43 | 18 |
+| Wald Test | 66 | 51 | 46 | 76 |
+| Cross Validation | 178 | 441 | 171 | 120 |
+| Bootstrap | 113 | 117 | 86 | 60 |
+| APVC | 98 | 167 | 351 | 20 |
+| ACC | 228 | 441 | 346 | 65 |
+| ALC | 98 | 267 | 516 | 25 |
+| Utility function | 148 | 172 | 206 | 105 |
+| **KL (ours)** | **493** | **437** | **86** | **165** |
+| **S (ours)** | **28** | **22** | **26** | **10** |
+
+### Dependence of the sufficient sample size on available sample set
+We have made a comprehensive analysis of the various sample size determination methods. 
+We have analysed, how the sufficient sample size depends on the available sample set. 
+Particularly, we increased the sample size, and calculated the sufficient one, based on the different methods. 
+
+<div align="center">
+  <img alt="overview" src="https://github.com/user-attachments/assets/83b8a68d-c41d-4601-bfc6-19ae2b13e29a">
+</div>
+
+- One can see that S-sufficient sample size is often the minimum one. <br>
+  The reason lies in the fact that it was developed to compare different machine learning models, in particular for the case of uninformative distributions.
+  This means that if the distributions have a large variance, then the proximity function will be close to one.
+  Because of this, even with a small sample size, the criterion considers it sufficient.
+- Also, the KL-sufficient sample size tends to require an almost total sample. <br>
+  In our opinion, this is due to the fact that the Kullback-Leibler divergence is extremely sensitive to changes in the mean and variance of the distributions being compared. 
+  Thus, the stabilization of the distance between them occurs quite late.
 
 ## 🛠️ Repository Structure
 The repository is structured as follows:
