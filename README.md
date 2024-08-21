@@ -17,6 +17,7 @@ However, the existing methods for determining a sufficient sample size are eithe
 In this paper we present two approaches based on the proximity of posterior distributions of model parameters on similar subsamples. 
 We show that these two methods are valid for the model with normal posterior distribution of parameters. 
 Computational experiments demonstrate the convergence of the proposed functions as the sample size increases.
+We also compare the proposed methods with other approaches on different datasets.
 
 ## 🔎 Overview
 <div align="center">
