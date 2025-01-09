@@ -114,7 +114,7 @@ Posterior-Distributions-Proximity
 @article{kiselev2025ssdposterior,
   author = {Kiselev, Nikita and Grabovoy, Andrey},
   title = {Sample size determination: posterior distributions proximity},
-  journal = {Health Information Science and Systems},
+  journal = {Computational Management Science},
   year = {2025},
   volume = {22},
   number = {1},
