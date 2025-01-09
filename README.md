@@ -7,7 +7,7 @@
 
 <sup>:email:</sup> Corresponding author
 
-[📝 Paper](https://github.com/kisnikser/Posterior-Distributions-Proximity/blob/main/paper/main.pdf), [</> Code](https://github.com/kisnikser/Posterior-Distributions-Proximity/tree/main/code), [🎬 Video](https://www.youtube.com/watch?v=WnIRaRl730A&t=1728s)
+[📝 Paper](https://rdcu.be/d5x08), [</> Code](https://github.com/kisnikser/Posterior-Distributions-Proximity/tree/main/code), [🎬 Video](https://www.youtube.com/watch?v=WnIRaRl730A&t=1728s)
 
 </div>
 
@@ -107,4 +107,17 @@ Posterior-Distributions-Proximity
     ├── references.bib
     ├── sn-jnl.cls
     └── sn-mathphys-num.bst
+```
+
+## 📚 Citation
+```BibTeX
+@article{kiselev2025ssdposterior,
+  author = {Kiselev, Nikita and Grabovoy, Andrey},
+  title = {Sample size determination: posterior distributions proximity},
+  journal = {Health Information Science and Systems},
+  year = {2025},
+  volume = {22},
+  number = {1},
+  pages = {1}
+}
 ```
