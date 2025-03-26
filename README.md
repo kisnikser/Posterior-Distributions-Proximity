@@ -1,28 +1,39 @@
 <div align="center">
-<h1>Sample Size Determination: Posterior Distributions Proximity </h1>
 
-[Nikita Kiselev](https://github.com/kisnikser)<sup>1 :email:</sup>, [Andrey Grabovoy](https://github.com/andriygav)<sup>1</sup>
+## Sample Size Determination: Posterior Distributions Proximity
 
-<sup>1</sup> Moscow Institute of Physics and Technology
+[**Nikita Kiselev**](https://kisnikser.github.io/)&nbsp;&nbsp;&nbsp;&nbsp;
+[**Andrey Grabovoy**](https://intsystems.github.io/people/grabovoy_av/index.html)<br>
+Moscow Institute of Physics and Technology
 
-<sup>:email:</sup> Corresponding author
+[![paper](https://img.shields.io/badge/paper-Computational_Management_Science-blue.svg)](https://rdcu.be/d5x08)
+[![video](https://img.shields.io/badge/video-presentation-green.svg)](https://www.youtube.com/watch?v=WnIRaRl730A&t=1728s)
 
-[📝 Paper](https://rdcu.be/d5x08), [</> Code](https://github.com/kisnikser/Posterior-Distributions-Proximity/tree/main/code), [🎬 Video](https://www.youtube.com/watch?v=WnIRaRl730A&t=1728s)
+<br>
+
+<img alt="overview" width=700 src="https://github.com/kisnikser/Posterior-Distributions-Proximity/assets/70231416/1765dacb-a3f0-4be2-84c6-c997a0a22884">
 
 </div>
 
-## 💡 Abstract
-The issue of sample size determination is crucial for constructing an effective machine learning model. 
-However, the existing methods for determining a sufficient sample size are either not strictly proven, or relate to the specific statistical hypothesis about the distribution of model parameters. 
-In this paper we present two approaches based on the proximity of posterior distributions of model parameters on similar subsamples. 
-We show that these two methods are valid for the model with normal posterior distribution of parameters. 
-Computational experiments demonstrate the convergence of the proposed functions as the sample size increases.
-We also compare the proposed methods with other approaches on different datasets.
+<br>
 
-## 🔎 Overview
-<div align="center">
-  <img alt="overview" src="https://github.com/kisnikser/Posterior-Distributions-Proximity/assets/70231416/1765dacb-a3f0-4be2-84c6-c997a0a22884">
-</div>
+> **Abstract:** *The issue of sample size determination is crucial for constructing an effective machine learning model. 
+> However, the existing methods for determining a sufficient sample size are either not strictly proven, or relate to the specific statistical hypothesis about the distribution of model parameters. 
+> In this paper we present two approaches based on the proximity of posterior distributions of model parameters on similar subsamples. 
+> We show that these two methods are valid for the model with normal posterior distribution of parameters. 
+> Computational experiments demonstrate the convergence of the proposed functions as the sample size increases.
+> We also compare the proposed methods with other approaches on different datasets.*
+
+## 🔥 News
+
+- [2025/01/07] [Paper](https://doi.org/10.1007/s10287-024-00528-9) was published in Computational Management Science journal.
+- [2024/12/30] Paper was accepted to be published in Computational Management Science journal.
+- [2024/03/28] [Paper](https://github.com/kisnikser/Posterior-Distributions-Proximity/blob/main/paper/main.pdf) and [Code](https://github.com/kisnikser/Posterior-Distributions-Proximit/tree/main/code) were released.
+
+## 🛠️ Repository Structure
+This repository is structured as follows:
+- `code`: The computational experiments code with its own `README.md`
+- `paper`: Preprint `main.pdf` with source LaTeX file `main.tex`.
 
 ## ⚖️ Comparison
 
@@ -83,41 +94,15 @@ Particularly, we increased the sample size, and calculated the sufficient one, b
   In our opinion, this is due to the fact that the Kullback-Leibler divergence is extremely sensitive to changes in the mean and variance of the distributions being compared. 
   Thus, the stabilization of the distance between them occurs quite late.
 
-## 🛠️ Repository Structure
-The repository is structured as follows:
-- `paper`: This directory contains the main paper in PDF format (`main.pdf`) and the LaTeX source file (`main.tex`). Also there is a directory `figs` with images used in the paper.
-- `code`: This directory contains the code used in the paper. It has its own `README.md` file providing a detailed description of the code files.
-```shell
-Posterior-Distributions-Proximity
-├── LICENSE
-├── README.md
-├── code
-│   ├── README.md
-│   ├── data.py
-│   ├── figs
-│   ├── main.ipynb
-│   ├── requirements.txt
-│   ├── stuff.py
-│   └── visualize.py
-└──  paper
-    ├── figs
-    ├── main.pdf
-    ├── main.tex
-    ├── preamble.tex
-    ├── references.bib
-    ├── sn-jnl.cls
-    └── sn-mathphys-num.bst
-```
-
-## 📚 Citation
+## 📖 Citation
 ```BibTeX
 @article{kiselev2025ssdposterior,
-  author = {Kiselev, Nikita and Grabovoy, Andrey},
-  title = {Sample size determination: posterior distributions proximity},
-  journal = {Computational Management Science},
-  year = {2025},
-  volume = {22},
-  number = {1},
-  pages = {1}
+  author={Kiselev, Nikita and Grabovoy, Andrey},
+  title={Sample size determination: posterior distributions proximity},
+  journal={Computational Management Science},
+  year={2025},
+  volume={22},
+  number={1},
+  pages={1}
 }
 ```
